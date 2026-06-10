@@ -1,10 +1,10 @@
 <p align="center">
   <a href="https://bluelearn.org">
-    <img src=".github/assets/logo.png" alt="BlueLearn" width="120" />
+    <img src=".github/assets/logo.png" alt="Bluelearn" width="120" />
   </a>
 </p>
 
-<h1 align="center">BlueLearn</h1>
+<h1 align="center">Bluelearn</h1>
 
 <p align="center">
   <strong>Free knowledge, structured from the ground up.</strong><br/>
@@ -36,13 +36,13 @@
 
 ---
 
-## 📚 What is BlueLearn
+## 📚 What is Bluelearn
 
 Most "free" knowledge online is organized for **retrieval**, not for **learning**.
 You can look up what a Fourier transform is on Wikipedia in 30 seconds. 
 Actually learning it without a class? That's a week of figuring out what to read first.
 
-BlueLearn is **a graph of concepts** where every page declares its
+Bluelearn is **a graph of concepts** where every page declares its
 prerequisites. Hit a term you don't know? The prerequisite is one click
 away. Community-written, optionally expert-verified, AGPL-3.0, free forever.
 
@@ -55,12 +55,12 @@ The marketing site is closed-source.
 
 ## 🎥 Watch the overview
 
-A 23-minute walkthrough of what BlueLearn is, why it's nonprofit, and how
+A 23-minute walkthrough of what Bluelearn is, why it's nonprofit, and how
 the prerequisite graph changes how you read a concept page.
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=qcRKmm3B25c">
-    <img src="https://img.youtube.com/vi/qcRKmm3B25c/maxresdefault.jpg" alt="BlueLearn — 23-minute overview" width="640" />
+    <img src="https://img.youtube.com/vi/qcRKmm3B25c/maxresdefault.jpg" alt="Bluelearn — 23-minute overview" width="640" />
   </a>
 </p>
 
@@ -154,7 +154,7 @@ interested — these are not on the Phase 1 critical path.
 | **2** | ⚪ Next    | Universal Access — i18n, expert verification tooling, API formalize |
 | **3** | ⚪ Future  | Decentralization — protocol extraction, self-host, independent mirrors |
 
-Full roadmap: [bluelearn.org/pages/roadmap.html](https://bluelearn.org/pages/roadmap.html)
+Full roadmap: [bluelearn.org/roadmap](https://bluelearn.org/roadmap)
 
 ---
 
@@ -194,7 +194,7 @@ The shortest path:
 
 ## 👥 Contributors
 
-Thanks to everyone who has helped shape BlueLearn.
+Thanks to everyone who has helped shape Bluelearn.
 
 <a href="https://github.com/bluelearn-org/bluelearn/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=bluelearn-org/bluelearn" alt="Contributors" />
@@ -204,11 +204,11 @@ Thanks to everyone who has helped shape BlueLearn.
 
 ## 💛 Support the project
 
-BlueLearn is fiscally sponsored — 501(c)(3) pending. Every dollar funds
+Bluelearn is fiscally sponsored — 501(c)(3) pending. Every dollar funds
 infrastructure (Supabase, Cloudflare, Discord), editorial review, and
 making content available offline in low-bandwidth regions.
 
-- **One-time / recurring donation** → [bluelearn.org/donate](https://bluelearn.org/pages/donate.html)
+- **One-time / recurring donation** → [bluelearn.org/donate](https://bluelearn.org/donate)
 - **GitHub Sponsors** → coming once the org is live
 - **Help in other ways** → star the repo, share the project, open an issue,
   send a PR
