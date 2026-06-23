@@ -2,7 +2,6 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { CreateGuideInput } from '@bluelearn/schemas'
 import type { Database } from '../database.types'
 import { ServiceError } from '../lib/service-error'
-import { slugify } from '../lib/slug'
 
 type DB = SupabaseClient<Database>
 
@@ -49,31 +48,21 @@ export async function listPublishedGuides(supabase: DB) {
 
 // Create a guide: bundles the guide_base + first guide + draft revision in one
 // transaction via the create_topic RPC (RLS still applies, SECURITY INVOKER).
-// Returns the draft revision id so the client can route to its editor.
+// The draft starts empty (title/slug filled in the editor); returns the draft
+// revision id so the client can route to its editor.
 export async function createGuide(supabase: DB, input: CreateGuideInput) {
   const { title, knowledge_type, summary, body } = input
 
-  const slug = slugify(title)
-  if (!slug) {
-    throw new ServiceError('Title must contain at least one letter or number', 400)
-  }
-
   const { data: revision_id, error } = await supabase.rpc('create_topic', {
-    p_title: title,
-    p_slug: slug,
+    p_title: title ?? undefined,
     p_knowledge_type: knowledge_type,
     p_summary: summary ?? undefined,
     p_body: body ?? undefined,
   })
 
-  if (error) {
-    if (error.code === '23505') {
-      throw new ServiceError('A guide with this title already exists', 409)
-    }
-    throw new ServiceError(error.message, 500)
-  }
+  if (error) throw new ServiceError(error.message, 500)
 
-  return { revision_id, slug }
+  return { revision_id }
 }
 
 // Resolve a guide by slug to its canonical content + subject tags. The prereq/

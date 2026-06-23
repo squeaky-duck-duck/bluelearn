@@ -22,19 +22,21 @@
     tags: [guides]
     summary: Create a guide
     description: >
-      Creates guide_base + first guide + draft revision. Returns the draft revision id for routing to the editor.
+      Creates an empty draft guide_base + first guide + draft revision. The body
+      is optional; content is filled in the editor. Returns the draft revision id
+      for routing to the editor.
     operationId: createGuide
     security:
       - bearerAuth: []
     requestBody:
-      required: true
+      required: false
       content:
         application/json:
           schema:
             $ref: '../components/schemas/guides/CreateGuideRequest.yaml'
     responses:
       '201':
-        description: Created; draft revision id + frozen slug
+        description: Created; draft revision id
         content:
           application/json:
             schema:
@@ -42,22 +44,11 @@
               properties:
                 revision_id:
                   $ref: '../components/schemas/common/Uuid.yaml'
-                slug:
-                  type: string
-                  example: calculus
-              required: [revision_id, slug]
+              required: [revision_id]
       '400':
         $ref: '../components/responses/_shared.yaml#/BadRequest'
       '401':
         $ref: '../components/responses/_shared.yaml#/Unauthorized'
-      '409':
-        description: A guide with this title already exists
-        content:
-          application/json:
-            schema:
-              $ref: '../components/schemas/common/Error.yaml'
-            example:
-              error: A guide with this title already exists
 
 /guides/{slug}:
   parameters:

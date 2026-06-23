@@ -23,11 +23,10 @@ export const guidesRouter = new Hono<HonoEnv>()
     return c.json({ guides })
   })
 
-  // 201 with { revision_id, slug } for the editor route. 400 on an unusable
-  // title, 409 if the title is taken.
+  // 201 with { revision_id } for the editor route.
   .post('/', requireUser, zValidator('json', createGuideBody), async (c) => {
-    const { revision_id, slug } = await createGuide(c.get('supabase'), c.req.valid('json'))
-    return c.json({ revision_id, slug }, 201)
+    const { revision_id } = await createGuide(c.get('supabase'), c.req.valid('json'))
+    return c.json({ revision_id }, 201)
   })
 
   // Returns the guide content and its subject tags.
