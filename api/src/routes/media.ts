@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { requireUser } from '../middleware/auth.middleware'
 import type { HonoEnv } from '../types'
 
-import { uploadMediaFile } from '../services/storageService'
+import { uploadMediaFile } from '../services/mediaService'
 
 export const mediaRouter = new Hono<HonoEnv>()
   // Upload a file to object storage and store entry in database
