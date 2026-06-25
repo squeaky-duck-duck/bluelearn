@@ -2,19 +2,6 @@
 
 <!-- Required: Describe what changed and why. -->
 
-<!-- Do not leave this section blank. -->
-
-## Related issues
-
-<!-- Optional. -->
-
-<!-- Remove this section entirely if there are no related issues. -->
-
-<!-- Otherwise list them, e.g.:
-- Closes #123
-- Related to #456
--->
-
 ## Type of change
 
 <!-- Keep only ONE option and delete the others. -->
