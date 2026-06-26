@@ -103,10 +103,12 @@ the DCO is enough.
 - [Wrangler](https://developers.cloudflare.com/workers/wrangler/) — comes
   with the `api/` package
 
-### Clone, install, run
+### Fork, clone, install, run
+Fork the repo.
 
+Then do the following:
 ```bash
-git clone https://github.com/bluelearn-org/bluelearn.git
+git clone https://github.com/<your-username>/bluelearn.git
 cd bluelearn
 pnpm install
 ```
