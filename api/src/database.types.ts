@@ -487,6 +487,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      },
+      media_assets_revision: {
+        Row: {
+          asset_id: string,
+          revision_id: string
+        },
+        Insert: {
+          asset_id?: string,
+          revision_id?: string
+        }
+        Update: {
+          asset_id?: string,
+          revision_id?: string
+        },
+        Relationships: [
+          {
+            foreignKeyName: "media_assets_revision_revision_id_fkey"
+            columns: ["revision_id"]
+            isOneToOne: false
+            referencedRelation: "guide_revisions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "media_assets_revision_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: true
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       panel_members: {
         Row: {
