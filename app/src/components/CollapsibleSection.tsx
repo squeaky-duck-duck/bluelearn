@@ -16,7 +16,7 @@ export const CollapsibleSection = ({
   defaultOpen?: boolean,
   children: React.ReactNode
 }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(defaultOpen ?? false)
 
   return (
     <Collapsible defaultOpen={defaultOpen} open={open} onOpenChange={setOpen} className="border-b py-4 group">
