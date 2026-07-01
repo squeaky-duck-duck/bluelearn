@@ -4,7 +4,7 @@ import {
   createPrerequisiteSchema,
   createTodoPrerequisiteSchema,
 } from '@bluelearn/schemas'
-import { requireUser } from '../middleware/requireUser'
+import { requireUser } from '../middleware/auth.middleware'
 import type { HonoEnv } from "../types"
 import { ServiceError } from '../utils/errors'
 
