@@ -30,10 +30,9 @@ import {
 } from "../services/guide-variant.service"
 import { getRevision, submitRevision, updateRevision } from "../services/guide-revision.service"
 
-// Normalize blank summary/body to NULL to match the create_guide RPC defaults
+// Normalize a blank summary to NULL to match the create_guide RPC defaults.
 const createGuideBody = createGuideSchema.extend({
   summary: createGuideSchema.shape.summary.transform((v) => v || null),
-  body: createGuideSchema.shape.body.transform((v) => v || null),
 })
 
 // Same NULL normalization for create_variant.

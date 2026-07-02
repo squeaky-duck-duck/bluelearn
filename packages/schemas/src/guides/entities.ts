@@ -1,5 +1,14 @@
-import { z } from "zod";
-import { guideBaseSchema, slugSchema } from "./schemas";
+import { z } from "zod"
+import { slugSchema } from "./fields"
+import { guideStatusSchema, guideTypeSchema, knowledgeTypeSchema } from "./enums"
+
+export const guideBaseSchema = z.object({
+  canonical_guide_id: z.uuid().nullable(),
+  slug: slugSchema,
+  type: guideTypeSchema.default("canonical"),
+  status: guideStatusSchema.default("draft"),
+  knowledge_type: knowledgeTypeSchema.default("theory"),
+})
 
 // Before hydration
 export const guideEntitySchema = guideBaseSchema.extend({
@@ -13,8 +22,8 @@ export const guideEntitySchema = guideBaseSchema.extend({
   created_at: z.date(),
   updated_at: z.date(),
 
-  tags: z.array(slugSchema),           // subject slugs
-  prerequisites: z.array(slugSchema),  // guide slugs/ids
-});
+  tags: z.array(slugSchema), // subject slugs
+  prerequisites: z.array(slugSchema), // guide slugs
+})
 
-export type GuideEntity = z.infer<typeof guideEntitySchema>;
+export type GuideEntity = z.infer<typeof guideEntitySchema>

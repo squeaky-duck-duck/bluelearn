@@ -1,44 +1,37 @@
-import { z } from "zod";
-import {
-  guideBaseSchema,
-  titleSchema,
-  summarySchema,
-  bodySchema,
-  guideStatusSchema,
-} from "./schemas";
+import { z } from "zod"
+import { subjectReferenceSchema } from "../subject"
+import { guideReferenceSchema } from "./references"
 
-import { guideReferenceSchema } from "./references";
-import { subjectReferenceSchema } from "../subjects/references"; // TODO
-
-/**
- * Final API Response (what frontend uses)
- */
-export const guideResponseSchema = guideBaseSchema.extend({
-  id: z.string().uuid(),
-  guide_base_id: z.string().uuid(),
-
-  slug: guideBaseSchema.shape.slug,
-
-  title: titleSchema,
-  summary: summarySchema,
-  body: bodySchema,
-
-  status: guideStatusSchema,
-
+export const guideSchema = z.object({
+  slug: z.string(),
+  title: z.string(),
   author: z.string(),
-
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
-
-  duration: z.number().int().nonnegative(),
-  breadcrumbs: z.array(z.string()),
-
-  // Fully hydrated relations (backend-resolved)
+  summary: z.string().nullable(),
+  body: z.string().nullable(),
+  word_count: z.number().int(),
+  created_at: z.iso.datetime(),
   tags: z.array(subjectReferenceSchema),
-
   prerequisites: z.array(guideReferenceSchema),
-});
+})
 
-export type GuideResponse = z.infer<
-  typeof guideResponseSchema
->;
+// depth is the longest-chain distance from the target (depth 0).
+export const walkthroughSchema = z.object({
+  nodes: z.array(
+    z.object({
+      id: z.uuid(),
+      slug: z.string(),
+      title: z.string(),
+      summary: z.string().nullable(),
+      depth: z.number().int(),
+    }),
+  ),
+  edges: z.array(
+    z.object({
+      from_id: z.uuid(),
+      to_id: z.uuid(),
+    }),
+  ),
+})
+
+export type Guide = z.infer<typeof guideSchema>
+export type Walkthrough = z.infer<typeof walkthroughSchema>
