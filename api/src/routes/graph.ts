@@ -8,6 +8,7 @@ import { requireUser } from '../middleware/auth.middleware'
 import type { HonoEnv } from "../types"
 import { ServiceError } from '../lib/service-error'
 
+// Prerequisites Router
 export const prerequisitesRouter = new Hono<HonoEnv>()
   .post('/', requireUser, zValidator('json', createPrerequisiteSchema), async (c) => {
     const supabase = c.get('supabase')
@@ -60,6 +61,7 @@ export const prerequisitesRouter = new Hono<HonoEnv>()
     return c.json({ edge: data }, 200)
   })
 
+// Todos Router
 export const todosRouter = new Hono<HonoEnv>()
   .get('/', async (c) => {
     const supabase = c.get('supabase')
@@ -96,3 +98,4 @@ export const todosRouter = new Hono<HonoEnv>()
 
     return c.json({ todo: data }, 201)
   })
+
