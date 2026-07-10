@@ -8,6 +8,8 @@ import { ObjectiveCard } from "@/components/cards/ObjectiveCard";
 import { GuideCard } from "@/components/cards/GuideCard";
 import { CustomTabs } from "@/components/Tabs";
 
+import { Route as ReviewSlugRoute } from "@/routes/review.$slug";
+
 import guides from "@/data/guides.json";
 import objectives from "@/data/objectives.json";
 
@@ -63,19 +65,23 @@ const ReviewGrid = ({ type, data }: ReviewGridProps) => {
   if (type == "objectives") {
     return (
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {data.map((objective: HydratedObjective) => {
+        {data.map((objective: HydratedObjective, index: number) => {
           const o = {
             ...objective,
           };
-          return <ObjectiveCard key={o.slug} objective={o} />;
+          return (
+            <ObjectiveCard key={index} objective={o} to={ReviewSlugRoute.to} />
+          );
         })}
       </div>
     );
   } else if (type == "guides") {
     return (
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {data.map((guide: Guide) => {
-          return <GuideCard key={guide.slug} guide={guide} />;
+        {data.map((guide: Guide, index: number) => {
+          return (
+            <GuideCard key={index} guide={guide} to={ReviewSlugRoute.to} />
+          );
         })}
       </div>
     );
