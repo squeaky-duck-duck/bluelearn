@@ -17,7 +17,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { GuideReader } from "@/components/GuideReader";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Combobox } from "@/components/ui/combobox";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export type Review = {
   decision: string;
@@ -134,6 +134,51 @@ function RouteComponent() {
             title={<p className="ml-auto">Submission Review</p>}
             defaultOpen={true}
           >
+            {/* <FieldGroup className="flex"> */}
+            <div className="flex justify-around">
+              <Button
+                className="btn-reject"
+                size="lg"
+                onClick={() => {
+                  if (review.decision == "reject") {
+                    setReview((prev) => ({
+                      ...prev,
+                      decision: "",
+                    }));
+                  } else {
+                    setReview((prev) => ({
+                      ...prev,
+                      decision: "reject",
+                    }));
+                  }
+                }}
+                disabled={review.decision == "approve"}
+              >
+                Reject
+              </Button>
+              <Button
+                className="btn-approve"
+                size="lg"
+                onClick={() => {
+                  if (review.decision == "approve") {
+                    setReview((prev) => ({
+                      ...prev,
+                      decision: "",
+                    }));
+                  } else {
+                    setReview((prev) => ({
+                      ...prev,
+                      decision: "approve",
+                    }));
+                  }
+                }}
+                disabled={review.decision == "reject"}
+              >
+                Approve
+              </Button>
+            </div>
+            {/* </FieldGroup> */}
+
             <FieldGroup>
               <Field className="space-y-2">
                 <FieldLabel className="font-mono tracking-[0.08em] uppercase">
@@ -155,23 +200,31 @@ function RouteComponent() {
                 />
               </Field>
 
-              <Field className="space-y-2">
-                <FieldLabel className="font-mono tracking-[0.08em] uppercase">
-                  Reasons
-                </FieldLabel>
+              {review.decision == "reject" && (
+                <Field className="space-y-2">
+                  <FieldLabel className="font-mono tracking-[0.08em] uppercase">
+                    Reasons
+                  </FieldLabel>
 
-                <Combobox
-                  multiple
-                  items={reasonOptions}
-                  value={review.reasons}
-                  onValueChange={(reasons) =>
-                    setReview((prev) => ({
-                      ...prev,
-                      reasons,
-                    }))
-                  }
-                />
-              </Field>
+                  <Combobox
+                    multiple
+                    items={reasonOptions}
+                    value={review.reasons}
+                    onValueChange={(reasons) =>
+                      setReview((prev) => ({
+                        ...prev,
+                        reasons,
+                      }))
+                    }
+                  />
+                </Field>
+              )}
+            </FieldGroup>
+
+            <FieldGroup>
+              <Button className="btn-pri" size="lg">
+                Submit
+              </Button>
             </FieldGroup>
           </CollapsibleSection>
         </Sidebar>

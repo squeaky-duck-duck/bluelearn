@@ -36,8 +36,9 @@ function PathPage() {
       <section className="border-b px-8 py-8 lg:px-16">
         <div className="mb-6">
           <p className="data-label text-[11px] tracking-[0.08em] text-muted-foreground uppercase">
-            Learning Objectives: {slug} ({hydratedObjectives[0].levels.length}{" "}
-            levels | {formatDuration(hydratedObjectives[0].duration)} total)
+            {/* FIX: should be title not slug */}
+            Objective: {slug} ({hydratedObjectives[0].levels.length} levels |{" "}
+            {formatDuration(hydratedObjectives[0].duration)} total)
           </p>
         </div>
 
