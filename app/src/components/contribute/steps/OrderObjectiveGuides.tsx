@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   GripVertical,
   Info,
@@ -133,8 +133,10 @@ export const OrderObjectiveGuides = ({ Stepper }: PropTypes) => {
   }, [targetSlug]);
 
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const draggedIndexRef = useRef<number | null>(null);
 
   const handleDragStart = (e: React.DragEvent, index: number) => {
+    draggedIndexRef.current = index;
     setDraggedIndex(index);
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/plain", index.toString());
@@ -142,19 +144,23 @@ export const OrderObjectiveGuides = ({ Stepper }: PropTypes) => {
 
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    if (draggedIndex === null || draggedIndex === index) return;
+    const currentDragged = draggedIndexRef.current;
+    if (currentDragged === null || currentDragged === index) return;
 
     setCuratedSequence((prev) => {
       const newList = [...prev];
-      const draggedItem = newList[draggedIndex];
-      newList.splice(draggedIndex, 1);
+      const draggedItem = newList[currentDragged];
+      if (!draggedItem) return prev;
+      newList.splice(currentDragged, 1);
       newList.splice(index, 0, draggedItem);
       return newList;
     });
+    draggedIndexRef.current = index;
     setDraggedIndex(index);
   };
 
   const handleDragEnd = () => {
+    draggedIndexRef.current = null;
     setDraggedIndex(null);
   };
 
@@ -204,7 +210,7 @@ export const OrderObjectiveGuides = ({ Stepper }: PropTypes) => {
           />
           <FieldDescription>
             Select which guide represents the final endpoint (target) of this
-            objective.
+            sub-objective.
           </FieldDescription>
         </Field>
 
@@ -215,11 +221,11 @@ export const OrderObjectiveGuides = ({ Stepper }: PropTypes) => {
               <div className="flex items-center gap-2 text-primary">
                 <ListOrdered className="h-5 w-5 text-primary" />
                 <CardTitle className="text-base font-semibold">
-                  Curated Linear Sequence
+                  Create Curated Sequence
                 </CardTitle>
               </div>
               <CardDescription>
-                Build the sequential learning path by ordering selected guides.
+                Build the sequential learning plan by ordering selected guides.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto p-4">
@@ -230,8 +236,8 @@ export const OrderObjectiveGuides = ({ Stepper }: PropTypes) => {
                     No prerequisite guides selected.
                   </p>
                   <p className="mt-1 max-w-[250px] text-xs text-muted-foreground/80">
-                    Select prerequisite guides from the walkthrough on the right
-                    to add them to your curated sequence.
+                    Select prerequisite guides from the prerequisites on the
+                    right to add them to your curated sequence.
                   </p>
                 </div>
               )}
@@ -319,7 +325,7 @@ export const OrderObjectiveGuides = ({ Stepper }: PropTypes) => {
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Layers className="h-5 w-5 text-primary" />
                 <CardTitle className="text-base font-semibold text-foreground">
-                  Generated Walkthrough
+                  Prerequisite Guides
                 </CardTitle>
               </div>
               <CardDescription>
