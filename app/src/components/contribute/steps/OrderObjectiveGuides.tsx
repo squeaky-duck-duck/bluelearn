@@ -325,7 +325,7 @@ export const OrderObjectiveGuides = ({
           </FieldDescription>
         </Field>
 
-        <div className="grid h-[calc(100vh-450px)] min-h-[350px] w-full grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
+        <div className="grid h-[calc(100vh-450px)] min-h-87.5 w-full grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
           {/* Left Pane: Curated Sequence (7 cols) */}
           <Card className="flex h-full max-h-full flex-col overflow-hidden rounded-lg border border-border bg-card/35 shadow-none backdrop-blur-sm lg:col-span-7">
             <CardHeader className="border-b pb-4">
@@ -360,7 +360,7 @@ export const OrderObjectiveGuides = ({
                   <p className="text-sm font-medium">
                     No prerequisite guides selected.
                   </p>
-                  <p className="mt-1 max-w-[250px] text-xs text-muted-foreground/80">
+                  <p className="mt-1 max-w-62.5 text-xs text-muted-foreground/80">
                     Select prerequisite guides from the prerequisites on the
                     right to add them to your curated sequence.
                   </p>
