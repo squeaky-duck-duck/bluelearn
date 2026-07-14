@@ -4,7 +4,6 @@ import {
   Clock,
   GripVertical,
   Info,
-  Layers,
   ListOrdered,
   Maximize,
   Minimize,
