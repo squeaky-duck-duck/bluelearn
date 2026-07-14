@@ -1,7 +1,11 @@
 import { describe, it, expect } from "vitest";
 import app from "../src/index";
 import { env, jsonAuth, makeUser } from "./helpers";
-import { createSubject, tagGuide, tagObjective } from "./factories/subjects";
+import {
+  createSubject,
+  tagGuideRevision,
+  tagObjectiveRevision,
+} from "./factories/subjects";
 import { createPublishedGuide } from "./factories/guides";
 import { createPublishedObjective } from "./factories/objectives";
 import { expectToMatchSpec } from "./openapi";
@@ -79,7 +83,7 @@ describe("GET /subjects/{slug}/guides", () => {
     const subject = await createSubject();
     const tagged = await createPublishedGuide({ summary: "Tagged" });
     const untagged = await createPublishedGuide();
-    await tagGuide(tagged.base.id, subject.id);
+    await tagGuideRevision(tagged.revision.id, subject.id);
 
     const res = await app.request(`/subjects/${subject.slug}/guides`, {}, env);
 
@@ -114,8 +118,8 @@ describe("GET /subjects/{slug}/objectives", () => {
     const untagged = await createPublishedObjective(userId, target, {
       title: "Gamma",
     });
-    await tagObjective(beta.objective.id, subject.id);
-    await tagObjective(alpha.objective.id, subject.id);
+    await tagObjectiveRevision(beta.revision.id, subject.id);
+    await tagObjectiveRevision(alpha.revision.id, subject.id);
 
     const res = await app.request(
       `/subjects/${subject.slug}/objectives`,

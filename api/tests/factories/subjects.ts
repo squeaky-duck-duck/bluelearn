@@ -11,16 +11,19 @@ export function createSubject(overrides: Partial<Insert<"subjects">> = {}) {
   });
 }
 
-export function tagGuide(guideBaseId: string, subjectId: string) {
-  return insert("guide_subjects", {
-    guide_base_id: guideBaseId,
+export function tagGuideRevision(guideRevisionId: string, subjectId: string) {
+  return insert("guide_revision_subjects", {
+    guide_revision_id: guideRevisionId,
     subject_id: subjectId,
   });
 }
 
-export function tagObjective(objectiveId: string, subjectId: string) {
-  return insert("objective_subjects", {
-    objective_id: objectiveId,
+export function tagObjectiveRevision(
+  objectiveRevisionId: string,
+  subjectId: string
+) {
+  return insert("objective_revision_subjects", {
+    objective_revision_id: objectiveRevisionId,
     subject_id: subjectId,
   });
 }

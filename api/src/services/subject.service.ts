@@ -2,7 +2,6 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../database.types";
 import { ServiceError } from "../lib/service-error";
 import { slugify } from "../lib/slug";
-import { CANONICAL_SUMMARY } from "./guide.service";
 
 type DB = SupabaseClient<Database>;
 
@@ -74,14 +73,20 @@ export async function listSubjectGuides(supabase: DB, rawSlug: string) {
     console.error(error);
     throw new ServiceError("Failed to load subject", 500);
   }
-  if (!subject) throw new ServiceError("Subject not found", 404);
 
+  if (!subject) throw new ServiceError("Subject not found", 404);
   const { data, error: guideError } = await supabase
     .from("guide_bases")
     .select(
-      `id, slug, title, guide_subjects!inner(subject_id), ${CANONICAL_SUMMARY}`
+      `id, slug, title,
+       canonical:guides!guide_bases_canonical_guide_id_fkey!inner(
+         current:guide_revisions!guides_current_revision_id_fkey!inner(
+           summary,
+           guide_revision_subjects!inner(subject_id)
+         )
+       )`
     )
-    .eq("guide_subjects.subject_id", subject.id)
+    .eq("canonical.current.guide_revision_subjects.subject_id", subject.id)
     .order("title");
 
   if (guideError) {
@@ -89,7 +94,7 @@ export async function listSubjectGuides(supabase: DB, rawSlug: string) {
     throw new ServiceError("Failed to load subject guides", 500);
   }
 
-  return (data ?? []).map(({ canonical, guide_subjects: _tags, ...base }) => ({
+  return (data ?? []).map(({ canonical, ...base }) => ({
     ...base,
     summary: canonical?.current?.summary ?? null,
   }));
@@ -106,16 +111,18 @@ export async function listSubjectObjectives(supabase: DB, rawSlug: string) {
     console.error(error);
     throw new ServiceError("Failed to load subject", 500);
   }
-  if (!subject) throw new ServiceError("Subject not found", 404);
 
+  if (!subject) throw new ServiceError("Subject not found", 404);
   const { data, error: objError } = await supabase
     .from("objectives")
     .select(
       `id, slug,
-       objective_subjects!inner(subject_id),
-       current:objective_revisions!objectives_current_revision_id_fkey(title, summary)`
+       current:objective_revisions!objectives_current_revision_id_fkey!inner(
+         title, summary,
+         objective_revision_subjects!inner(subject_id)
+       )`
     )
-    .eq("objective_subjects.subject_id", subject.id)
+    .eq("current.objective_revision_subjects.subject_id", subject.id)
     .eq("status", "published");
 
   if (objError) {
@@ -127,7 +134,7 @@ export async function listSubjectObjectives(supabase: DB, rawSlug: string) {
   // composite (to-many), so PostgREST can't sort the nodes by
   // it. Sort the mapped list here instead.
   return (data ?? [])
-    .map(({ current, objective_subjects: _tags, ...rest }) => ({
+    .map(({ current, ...rest }) => ({
       ...rest,
       title: current?.title ?? null,
       summary: current?.summary ?? null,
