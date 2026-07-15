@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { useState } from "react";
 import type { ContributionType } from "@/types/contributions";
-import { Separator } from "@/components/ui/separator";
 import ContributionFlow from "@/components/contribute/ContributionFlow";
 
 export const Route = createFileRoute("/contribute")({
