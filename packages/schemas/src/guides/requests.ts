@@ -6,6 +6,7 @@ import {
   guideSummarySchema,
   guideTitleSchema,
 } from "./fields";
+import { subjectSlugSchema } from "../subjects";
 import {
   downvoteReasonSchema,
   knowledgeTypeSchema,
@@ -24,7 +25,7 @@ const revisionContentSchema = z.object({
 // least one subject are required; summary/prerequisites/related are optional.
 export const createGuideSchema = z.object({
   tags: z.array(guideSlugSchema).min(1),
-  knowledge_type: knowledgeTypeSchema.default("theory"),
+  knowledge_type: knowledgeTypeSchema.default("theoretical"),
   title: guideTitleSchema,
   slug: guideSlugSchema,
   summary: guideSummarySchema.nullish(),
@@ -41,7 +42,10 @@ export const createVariantSchema = revisionContentSchema;
 // want to change (at least one is required). A user can clear summary, body, or
 // change_summary by sending an empty value, but a present title must stay set.
 export const updateRevisionSchema = revisionContentSchema
-  .extend({ change_summary: guideChangeSummarySchema.nullish() })
+  .extend({
+    change_summary: guideChangeSummarySchema.nullish(),
+    tags: z.array(subjectSlugSchema),
+  })
   .partial()
   .refine((v) => Object.keys(v).length > 0, {
     message: "at least one field is required",

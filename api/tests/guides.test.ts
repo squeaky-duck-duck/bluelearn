@@ -8,7 +8,7 @@ import {
   createPublishedGuide,
   createVote,
 } from "./factories/guides";
-import { createSubject, tagGuide } from "./factories/subjects";
+import { createSubject, tagGuideRevision } from "./factories/subjects";
 import { createPrerequisite } from "./factories/graph";
 import { expectToMatchSpec } from "./openapi";
 
@@ -47,7 +47,7 @@ describe("POST /guides", () => {
       "/guides",
       jsonAuth(token, "POST", {
         tags: ["algebra"],
-        knowledge_type: "theory",
+        knowledge_type: "theoretical",
         title: "Limits",
         slug: `limits-${crypto.randomUUID().slice(0, 8)}`,
         body: "A first look at limits.",
@@ -70,9 +70,9 @@ describe("POST /guides", () => {
 
 describe("GET /guides/{slug}", () => {
   it("returns the guide with its subject tags", async () => {
-    const { base } = await createPublishedGuide({ body: "Content" });
+    const { base, revision } = await createPublishedGuide({ body: "Content" });
     const subject = await createSubject();
-    await tagGuide(base.id, subject.id);
+    await tagGuideRevision(revision.id, subject.id);
 
     const res = await app.request(`/guides/${base.slug}`, {}, env);
 

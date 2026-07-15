@@ -12,13 +12,11 @@ type PropTypes = {
 
 export const Footer = ({ data }: PropTypes) => {
   return (
-    <CardFooter className="flex flex-wrap items-center justify-between border-t p-0">
-      <div className="flex flex-wrap items-center">
-        {data.stats?.map((g: { label: string; data: number }) => {
-          return <FooterStats key={g.label} label={g.label} data={g.data} />;
-        })}
-      </div>
-      {data.actionBtns && <div className="pr-4">{data.actionBtns}</div>}
+    <CardFooter className="grid grid-cols-2 border-t p-0 sm:grid-cols-4 [&>*:last-child]:border-r-0">
+      {data.stats?.map((g: { label: string; data: number }) => {
+        return <FooterStats key={g.label} label={g.label} data={g.data} />;
+      })}
+      {data.actionBtns}
     </CardFooter>
   );
 };
