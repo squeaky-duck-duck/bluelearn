@@ -25,7 +25,7 @@ function PathPage() {
   const pathData = getPathBySlug(objectives, slug);
 
   if (!pathData) {
-    throw notFound;
+    throw notFound();
   }
 
   const hydratedObjectives: Array<HydratedObjective> = hydrateObjectives(
@@ -51,15 +51,15 @@ function PathPage() {
           </h1>
 
           <div className="flex flex-wrap items-center gap-2">
+            <Button variant="outline" className="btn-sec" size="lg">
+              See Graph View
+            </Button>
+
             <Combobox
               items={subObjectiveItems}
               value={subObjective}
               onValueChange={setSubObjective}
             />
-
-            <Button variant="outline" size="sm">
-              See Graph View
-            </Button>
           </div>
         </div>
 
