@@ -35,8 +35,7 @@ export const walkthroughSchema = z.object({
 });
 
 // A guide as listed anywhere it renders as a card (GET /guides, subject
-// pages). author is the canonical variant's author; duration_minutes derives
-// from the stored body word count; tags are subject slugs.
+// pages). duration_minutes derives from the stored body word count.
 export const guideListItemSchema = z.object({
   id: z.uuid(),
   slug: z.string().nullable(),

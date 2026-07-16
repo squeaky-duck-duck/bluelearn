@@ -31,8 +31,7 @@ export const objectiveSchema = z.object({
   edges: z.array(objectiveEdgeSchema),
 });
 
-// One featured node: a guide the curator placed under the featured target, in
-// placement order.
+// Represents a guide the curator placed under the featured target.
 export const featuredNodeSchema = z.object({
   position: z.number().int(),
   slug: z.string().nullable(),
