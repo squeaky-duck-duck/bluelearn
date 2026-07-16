@@ -71,7 +71,7 @@ function PathPage() {
               ...level.guide,
               stats: [{ label: "Duration", data: level.guide.duration }],
               actionBtns: (
-                <div className="flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
+                <div className="col-span-2 col-start-3 mt-5 flex items-center justify-around border-t-1 p-4 pt-8 lg:mt-0 lg:border-none lg:pt-4">
                   <Button variant="outline" className="btn-sec" size="lg">
                     View Walkthrough
                   </Button>
