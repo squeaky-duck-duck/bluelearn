@@ -56,16 +56,19 @@ export const OrderTargetGuides = ({
   };
 
   return (
-    <Stepper.Content step="target-ordering">
+    <Stepper.Content
+      step="target-ordering"
+      className="flex min-h-0 w-full flex-1 flex-col"
+    >
       <StepperActionHeader title={"Order Target Guides"} Stepper={Stepper} />
 
-      <FieldGroup className="space-y-6">
-        <p className="text-sm text-muted-foreground">
+      <FieldGroup className="mt-4 flex min-h-0 flex-1 flex-col">
+        <p className="mb-4 shrink-0 text-sm text-muted-foreground">
           Drag and drop to specify the order in which these target guides should
           be completed.
         </p>
 
-        <div className="space-y-3">
+        <div className="min-h-0 flex-1 scrollbar-thin [scrollbar-color:var(--border)_transparent] space-y-3 overflow-y-auto pt-2 pr-4 pb-4 pl-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-transparent">
           {targets.map((slug, index) => {
             const guide = guidesMap.get(slug);
             if (!guide) return null;
@@ -73,25 +76,26 @@ export const OrderTargetGuides = ({
             const isDragging = index === draggedIndex;
 
             return (
-              <DraggableGuideCard
-                key={slug}
-                guide={guide}
-                index={index}
-                isDragging={isDragging}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDragEnd={handleDragEnd}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  disabled
-                  className="h-8 w-8 cursor-not-allowed border-none p-0 text-muted-foreground/40 hover:bg-transparent"
-                  title="Variants Coming Soon"
+              <div key={slug} className="mr-auto">
+                <DraggableGuideCard
+                  guide={guide}
+                  index={index}
+                  isDragging={isDragging}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDragEnd={handleDragEnd}
                 >
-                  <Replace className="h-5 w-5" />
-                </Button>
-              </DraggableGuideCard>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    disabled
+                    className="h-8 w-8 cursor-not-allowed border-none p-0 text-muted-foreground/40 hover:bg-transparent"
+                    title="Variants Coming Soon"
+                  >
+                    <Replace className="h-5 w-5" />
+                  </Button>
+                </DraggableGuideCard>
+              </div>
             );
           })}
         </div>
