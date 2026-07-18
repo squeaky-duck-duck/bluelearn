@@ -16,15 +16,12 @@ function RouteComponent() {
   const [appearanceOpen, setAppearanceOpen] = useState(false);
   const [appearance, setAppearance] = useState("system");
 
-  const handleSave = () => {
-    // TODO: Implement API call to save settings
-  };
-
   return (
     <div className="mx-auto max-w-[1280px] border-x bg-background">
       <div className="flex min-h-[calc(100svh_-_64px)]">
+
         {/* Left Sidebar Navigation */}
-        <div className="w-[300px] border-r border-border bg-background p-6">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-3">
             <button
               onClick={() => {
@@ -32,28 +29,13 @@ function RouteComponent() {
                 setAppearanceOpen(false);
               }}
               className={cn(
-                "w-full rounded-md border px-4 py-3 text-left font-mono text-sm font-medium tracking-[0.08em] transition-colors",
+                "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground"
                 activeSection === "account"
-                  ? "border-border bg-muted text-foreground"
-                  : "border-border bg-background text-foreground hover:bg-muted/50"
+                  ? "var(--badge-bg)"
+                  : "var(--muted-bg)"
               )}
             >
               Account
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveSection("notifications");
-                setAppearanceOpen(false);
-              }}
-              className={cn(
-                "w-full rounded-md border px-4 py-3 text-left font-mono text-sm font-medium tracking-[0.08em] transition-colors",
-                activeSection === "notifications"
-                  ? "border-border bg-muted text-foreground"
-                  : "border-border bg-background text-foreground hover:bg-muted/50"
-              )}
-            >
-              Notifications
             </button>
 
             <button
@@ -62,10 +44,10 @@ function RouteComponent() {
                 setAppearanceOpen(false);
               }}
               className={cn(
-                "w-full rounded-md border px-4 py-3 text-left font-mono text-sm font-medium tracking-[0.08em] transition-colors",
+                "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground"
                 activeSection === "advanced"
-                  ? "border-border bg-muted text-foreground"
-                  : "border-border bg-background text-foreground hover:bg-muted/50"
+                  ? "var(--badge-bg)"
+                  : "var(--muted-bg)"
               )}
             >
               Advanced
@@ -76,10 +58,10 @@ function RouteComponent() {
               <button
                 onClick={() => setAppearanceOpen(!appearanceOpen)}
                 className={cn(
-                  "w-full rounded-md border px-4 py-3 text-left font-mono text-sm font-medium tracking-[0.08em] transition-colors",
+                  "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground",
                   appearanceOpen
-                    ? "border-border bg-muted text-foreground"
-                    : "border-border bg-background text-foreground hover:bg-muted/50"
+                  ? "var(--badge-bg)"
+                  : "var(--muted-bg)"
                 )}
               >
                 <div className="flex items-center justify-between">
@@ -98,10 +80,10 @@ function RouteComponent() {
                   <button
                     onClick={() => setAppearance("light")}
                     className={cn(
-                      "w-full rounded px-3 py-2 text-left text-sm text-foreground transition-colors",
+                      "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground",
                       appearance === "light"
-                        ? "border-b-2 border-foreground bg-transparent"
-                        : "bg-transparent hover:bg-muted/20"
+                        ? "var(--badge-bg)"
+                        : "var(--muted-bg)"
                     )}
                   >
                     Light
@@ -109,10 +91,10 @@ function RouteComponent() {
                   <button
                     onClick={() => setAppearance("dark")}
                     className={cn(
-                      "w-full rounded px-3 py-2 text-left text-sm font-medium text-foreground transition-colors",
+                      "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground",
                       appearance === "dark"
-                        ? "border-b-2 border-foreground bg-transparent"
-                        : "bg-transparent hover:bg-muted/20"
+                        ? "var(--badge-bg)"
+                        : "var(--muted-bg)"
                     )}
                   >
                     Dark
@@ -125,26 +107,29 @@ function RouteComponent() {
 
         {/* Right Content Area */}
         <div className="flex-1 px-8 py-8 lg:px-16">
+
           {/* Account Section */}
           {activeSection === "account" && (
-            <div className="space-y-8">
+
+             <div className="mb-6">
               <div>
-                <h2 className="mb-1 font-mono text-sm font-bold tracking-[0.08em] uppercase">
+                <h1 className="data-label text-[14px] tracking-[0.08em] text-muted-foreground uppercase">
                   Account
-                </h2>
+                </h1>
                 <p className="font-mono text-sm text-muted-foreground">
                   Make changes to your account details
                 </p>
-                <Separator className="mt-4 bg-border" />
               </div>
+             
+              <Separator className="mb-8 bg-border" />
 
-              <div className="space-y-6">
+              <div className="space-y-2">
                 <div>
-                  <label className="mb-2 block font-mono text-sm font-medium">
+                  <label className="font-mono tracking-[0.08em] uppercase">
                     Display Name
                   </label>
-                  <p className="mb-3 font-mono text-xs text-muted-foreground">
-                    The name others can see | If blank, defaults to username
+                  <p className="mb-3 font-sans text-xs text-muted-foreground">
+                    Publicly visible (if blank, defaults to username)
                   </p>
                   <Input
                     defaultValue="Johnny Doeser"
@@ -153,7 +138,7 @@ function RouteComponent() {
                 </div>
 
                 <div>
-                  <label className="mb-2 block font-mono text-sm font-medium">
+                  <label className="font-mono tracking-[0.08em] uppercase">
                     Username
                   </label>
                   <Input
@@ -163,7 +148,7 @@ function RouteComponent() {
                 </div>
 
                 <div>
-                  <label className="mb-2 block font-mono text-sm font-medium">
+                  <label className="font-mono tracking-[0.08em] uppercase">
                     Email
                   </label>
                   <Input
@@ -174,7 +159,7 @@ function RouteComponent() {
                 </div>
 
                 <div>
-                  <label className="mb-2 block font-mono text-sm font-medium">
+                  <label className="font-mono tracking-[0.08em] uppercase">
                     Password
                   </label>
                   <Input
@@ -186,67 +171,7 @@ function RouteComponent() {
 
                 <Button
                   onClick={handleSave}
-                  className="border border-border bg-muted text-foreground hover:bg-muted/90"
-                >
-                  Save
-                </Button>
-              </div>
-            </div>
-          )}
-          {activeSection === "notifications" && (
-            <div className="space-y-8">
-              <div>
-                <h2 className="mb-1 font-mono text-sm font-bold tracking-[0.08em] uppercase">
-                  Notifications
-                </h2>
-                <p className="font-mono text-sm text-muted-foreground">
-                  Make changes to your notification preferences
-                </p>
-                <Separator className="mt-4 bg-border" />
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="mb-3 font-mono text-sm font-medium">In-App</h3>
-                  <Input
-                    defaultValue="Turn off In-App notifications"
-                    className="border border-border"
-                  />
-                </div>
-
-                <div>
-                  <h3 className="mb-3 font-mono text-sm font-medium">
-                    Email Preference
-                  </h3>
-                  <Input
-                    defaultValue="Unsubscribe from Emails"
-                    className="border border-border"
-                  />
-                </div>
-
-                <div>
-                  <h3 className="mb-3 font-mono text-sm font-medium">
-                    Promotional Updates
-                  </h3>
-                  <Input
-                    defaultValue="Opt out of promotional offers"
-                    className="border border-border"
-                  />
-                </div>
-
-                <div>
-                  <h3 className="mb-3 font-mono text-sm font-medium">
-                    BlueLearn News
-                  </h3>
-                  <Input
-                    defaultValue="Unsubscribe to BlueLearn news"
-                    className="border border-border"
-                  />
-                </div>
-
-                <Button
-                  onClick={handleSave}
-                  className="bg-input text-foreground hover:bg-input/90"
+                  className="btn-pri"
                 >
                   Save
                 </Button>
@@ -256,19 +181,20 @@ function RouteComponent() {
 
           {/* Advanced Section */}
           {activeSection === "advanced" && (
-            <div className="space-y-8">
+            <div className="mb-6">
               <div>
-                <h2 className="mb-1 font-mono text-sm font-bold tracking-[0.08em] uppercase">
+                <h1 className="data-label text-[14px] tracking-[0.08em] text-muted-foreground uppercase">
                   Advanced
-                </h2>
-                <Separator className="mt-4 bg-border" />
+                </h1>
               </div>
-
-              <div className="space-y-6">
+             
+              <Separator className="mb-8 bg-border" />
+             
+              <div className="space-y-2">
                 <div>
                   <a
                     href="#"
-                    className="font-mono text-sm underline hover:text-muted-foreground"
+                    className="font-mono tracking-[0.08em] uppercase"
                   >
                     Terms of Service
                   </a>
@@ -277,20 +203,20 @@ function RouteComponent() {
                 <div>
                   <a
                     href="#"
-                    className="font-mono text-sm underline hover:text-muted-foreground"
+                    className="font-mono tracking-[0.08em] uppercase"
                   >
                     Privacy Policy
                   </a>
                 </div>
 
-                <div className="pt-4">
+                <div className="space-y-2">
                   <Button
                     variant="destructive"
-                    className="font-mono text-sm font-bold tracking-[0.08em] text-white uppercase hover:bg-red-700"
+                    className="font-mono tracking-[0.08em] uppercase"
                   >
                     Delete Account
                   </Button>
-                  <p className="mt-3 font-mono text-sm font-bold tracking-[0.08em] text-red-600 uppercase">
+                  <p className="mt-3 font-mono text-sm tracking-[0.08em] text-destructive uppercase">
                     This action cannot be undone
                   </p>
                 </div>
