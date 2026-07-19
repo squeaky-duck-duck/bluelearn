@@ -1,11 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { client } from "@/lib/apiClient";
 
 export const Route = createFileRoute("/settings")({
   component: RouteComponent,
@@ -16,10 +17,36 @@ function RouteComponent() {
   const [appearanceOpen, setAppearanceOpen] = useState(false);
   const [appearance, setAppearance] = useState("system");
 
+  const [displayName, setDisplayName] = useState("Johnny Doeser");
+  const [username, setUsername] = useState("John_Doe99");
+  const [bio, setBio] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const res = await client.me.$patch({
+        json: {
+          username,
+          display_name: displayName || null,
+          bio: bio || null,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(`Save failed: ${res.status}`);
+      }
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[1280px] border-x bg-background">
       <div className="flex min-h-[calc(100svh_-_64px)]">
-
         {/* Left Sidebar Navigation */}
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-3">
@@ -29,7 +56,7 @@ function RouteComponent() {
                 setAppearanceOpen(false);
               }}
               className={cn(
-                "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground"
+                "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground",
                 activeSection === "account"
                   ? "var(--badge-bg)"
                   : "var(--muted-bg)"
@@ -44,7 +71,7 @@ function RouteComponent() {
                 setAppearanceOpen(false);
               }}
               className={cn(
-                "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground"
+                "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground",
                 activeSection === "advanced"
                   ? "var(--badge-bg)"
                   : "var(--muted-bg)"
@@ -59,9 +86,7 @@ function RouteComponent() {
                 onClick={() => setAppearanceOpen(!appearanceOpen)}
                 className={cn(
                   "mono-micro rounded-full border border-badge-border p-4 tracking-[0.08em] text-badge-foreground",
-                  appearanceOpen
-                  ? "var(--badge-bg)"
-                  : "var(--muted-bg)"
+                  appearanceOpen ? "var(--badge-bg)" : "var(--muted-bg)"
                 )}
               >
                 <div className="flex items-center justify-between">
@@ -107,11 +132,9 @@ function RouteComponent() {
 
         {/* Right Content Area */}
         <div className="flex-1 px-8 py-8 lg:px-16">
-
           {/* Account Section */}
           {activeSection === "account" && (
-
-             <div className="mb-6">
+            <div className="mb-6">
               <div>
                 <h1 className="data-label text-[14px] tracking-[0.08em] text-muted-foreground uppercase">
                   Account
@@ -120,7 +143,7 @@ function RouteComponent() {
                   Make changes to your account details
                 </p>
               </div>
-             
+
               <Separator className="mb-8 bg-border" />
 
               <div className="space-y-2">
@@ -132,7 +155,8 @@ function RouteComponent() {
                     Publicly visible (if blank, defaults to username)
                   </p>
                   <Input
-                    defaultValue="Johnny Doeser"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
                     className="border border-border"
                   />
                 </div>
@@ -142,38 +166,35 @@ function RouteComponent() {
                     Username
                   </label>
                   <Input
-                    defaultValue="John_Doe99"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="border border-border"
                   />
                 </div>
 
                 <div>
                   <label className="font-mono tracking-[0.08em] uppercase">
-                    Email
+                    Bio
                   </label>
                   <Input
-                    type="email"
-                    defaultValue="johndoe29@gmail.com"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                     className="border border-border"
                   />
                 </div>
 
-                <div>
-                  <label className="font-mono tracking-[0.08em] uppercase">
-                    Password
-                  </label>
-                  <Input
-                    type="password"
-                    placeholder="reset your password"
-                    className="border border-border"
-                  />
-                </div>
+                {saveError && (
+                  <p className="font-mono text-sm text-destructive">
+                    {saveError}
+                  </p>
+                )}
 
                 <Button
                   onClick={handleSave}
+                  disabled={saving}
                   className="btn-pri"
                 >
-                  Save
+                  {saving ? "Saving..." : "Save"}
                 </Button>
               </div>
             </div>
@@ -187,9 +208,9 @@ function RouteComponent() {
                   Advanced
                 </h1>
               </div>
-             
+
               <Separator className="mb-8 bg-border" />
-             
+
               <div className="space-y-2">
                 <div>
                   <a
